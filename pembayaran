@@ -1,0 +1,64 @@
+<Schema name="fakta_pembayaran">
+  <Dimension type="TimeDimension" visible="true" highCardinality="false" name="waktu">
+    <Hierarchy name="waktu-h0" visible="true" hasAll="true" allMemberName="AllWaktu" primaryKey="id">
+      <Table name="dim_waktu">
+      </Table>
+      <Level name="tahun" visible="true" table="dim_waktu" column="thn" type="Integer" uniqueMembers="false" levelType="TimeYears" hideMemberIf="Never">
+      </Level>
+      <Level name="bulan" visible="true" table="dim_waktu" column="bulan" nameColumn="bulan" ordinalColumn="bulan" type="String" uniqueMembers="false" levelType="TimeMonths" hideMemberIf="Never">
+      </Level>
+      <Level name="tanggal" visible="true" table="dim_waktu" column="tgl" nameColumn="tgl" type="Integer" uniqueMembers="false" levelType="TimeDays" hideMemberIf="Never">
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Dimension type="StandardDimension" visible="true" highCardinality="false" name="customer">
+    <Hierarchy name="pelanggan" visible="true" hasAll="true" allMemberName="AllPelanggan" primaryKey="id">
+      <Table name="dim_customer">
+      </Table>
+      <Level name="name" visible="true" table="dim_customer" column="name" nameColumn="name" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+      </Level>
+      <Level name="city" visible="true" table="dim_customer" column="city" nameColumn="city" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+      </Level>
+      <Level name="country" visible="true" table="dim_customer" column="country" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+      </Level>
+      <Level name="state" visible="true" table="dim_customer" column="state" nameColumn="state" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+      </Level>
+      <Level name="costumernumber" visible="true" table="dim_customer" column="costumernumber" nameColumn="costumernumber" type="Integer" uniqueMembers="false">
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Dimension type="StandardDimension" visible="true" highCardinality="false" name="staff">
+    <Hierarchy name="staf" visible="true" hasAll="true" allMemberName="AllStaf" primaryKey="id">
+      <Table name="dim_staff">
+      </Table>
+      <Level name="name" visible="true" table="dim_staff" column="name" nameColumn="name" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+      </Level>
+      <Level name="jobTitle" visible="true" table="dim_staff" column="jobTitle" nameColumn="jobTitle" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+      </Level>
+      <Level name="officeCode" visible="true" table="dim_staff" column="officeCode" nameColumn="officeCode" type="String" uniqueMembers="false">
+      </Level>
+      <Level name=" city" visible="true" table="dim_staff" column="city" nameColumn="city" type="String" uniqueMembers="false">
+      </Level>
+      <Level name="state" visible="true" table="dim_staff" column="state" nameColumn="state" type="String" uniqueMembers="false">
+      </Level>
+      <Level name="country " visible="true" table="dim_staff" column="country" nameColumn="country" type="String" uniqueMembers="false">
+      </Level>
+      <Level name="employeeNumber" visible="true" table="dim_staff" column="employeeNumber" nameColumn="employeeNumber" type="Integer" uniqueMembers="false">
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Cube name="pembayaran" visible="true" cache="true" enabled="true">
+    <Table name="fakta_pembayaran">
+    </Table>
+    <DimensionUsage source="waktu" name="waktu" visible="true" foreignKey="sk_waktu" highCardinality="false">
+    </DimensionUsage>
+    <DimensionUsage source="customer" name="customer" visible="true" foreignKey="sk_customer" highCardinality="false">
+    </DimensionUsage>
+    <DimensionUsage source="staff" name="staff" visible="true" foreignKey="sk_staff" highCardinality="false">
+    </DimensionUsage>
+    <Measure name="total" column="amount" datatype="Integer" aggregator="sum" visible="true">
+    </Measure>
+    <Measure name="cacah" column="amount" aggregator="count" visible="true">
+    </Measure>
+  </Cube>
+</Schema>
